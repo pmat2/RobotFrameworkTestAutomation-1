@@ -129,13 +129,6 @@ This project can be integrated into CI/CD pipelines. Example for GitHub Actions:
 - **Timeouts**: Adjust the SeleniumLibrary timeout in `CRM.robot` if tests fail intermittently
 - **Element Not Found**: Verify the target CRM application is accessible and hasn't changed
 
-## Contributing
-
-1. Create a new branch for your feature
-2. Add new test cases following the existing format
-3. Ensure all tests pass before submitting a pull request
-4. Update this README with any new test cases or dependencies
-
 ## Contact
 
 For questions or issues, please [add contact information]
