@@ -11,7 +11,13 @@ This project contains automated test cases for the [Automation Playground CRM](h
 ```
 .
 ├── tests/
-│   └── CRM.robot              # Main test suite for CRM application
+│   ├── CRM.robot              # Main test suite for CRM application
+│   └── embedded/
+│       ├── alarm_tests.robot  # Robot Framework tests for embedded app
+│       └── app_driver.py      # Python driver for embedded application
+├── embedded/
+│   ├── app.c                  # Embedded application source code
+│   └── hal_temperature_mock.c # Mock hardware abstraction layer
 ├── results/                   # Test execution reports (generated)
 ├── pyproject.toml            # Project configuration and dependencies
 └── README.md                 # This file
@@ -69,27 +75,43 @@ The project includes the following test cases:
 
 ## Running Tests
 
-### Run all tests:
+### CRM Application Tests
+
+#### Run all tests:
 ```bash
 robot -d results tests
 ```
 
-### Run specific test by name:
+#### Run specific test by name:
 ```bash
 robot --test "Login should succeed with valid credentials" tests/CRM.robot
 ```
 
-### Run tests by tag:
+#### Run tests by tag:
 ```bash
 robot --include Smoke tests/CRM.robot
 robot --include Functional tests/CRM.robot
 ```
 
-### Run with specific options:
+#### Run with specific options:
 ```bash
 robot --variable BROWSER:firefox tests/CRM.robot
 robot --outputdir results tests/CRM.robot
 ```
+
+### Embedded Application Tests
+
+#### Build the embedded application:
+```bash
+gcc app.c hal_temperature_mock.c -o app_test
+```
+
+#### Run embedded tests:
+```bash
+robot -d results tests/embedded
+```
+
+The embedded test suite includes alarm functionality tests using a mock hardware abstraction layer for temperature sensing.
 
 ## Test Configuration
 
