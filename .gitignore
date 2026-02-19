@@ -2,3 +2,4 @@
 /.robotcode_cache/
 /.idea/
 /results/
+/embedded/*.exe
