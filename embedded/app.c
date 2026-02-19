@@ -1,4 +1,3 @@
-// app_test.c
 #include <stdio.h>
 #include <string.h>
 #include "hal_temperature.h"
