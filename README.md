@@ -72,6 +72,11 @@ The project includes the following test cases:
 | 1006 | Customers page should display multiple customers | Smoke | Confirms customers grid displays multiple records |
 | 1007 | Should be able to add new customer | Smoke | Tests adding a new customer with valid data |
 | 1008 | Should be able to cancel adding new customer | Functional | Verifies cancel button works on add customer form |
+| 2001 | Alarm triggers when temperature exceeds threshold | Embedded | Verify alarm output becomes active when temperature > threshold (mocked HAL) |
+| 2002 | Alarm releases when temperature returns below threshold | Embedded | Verify alarm output deasserts when temperature falls below threshold |
+| 2003 | Sensor invalid reading handling | Embedded | Verify system handles invalid/erroneous sensor values safely and reports errors |
+| 2004 | Alarm debounce / transient suppression | Embedded | Verify short/transient spikes do not cause spurious alarm toggles |
+| 2005 | Alarm state persists across resets when configured | Embedded | Verify alarm persistence behavior across software resets when expected |
 
 ## Running Tests
 
