@@ -1,10 +1,10 @@
 *** Settings ***
-Library    app_driver.py
+Library    AppDriver.py
 
 *** Test Cases ***
 Alarm Off Below Threshold
     [Documentation]                 Set temperature below threshold and get alarm result, expect alarm off
-    [Tags]                          Embedded      Smoke
+    [Tags]                          2001          Embedded      Smoke
     Start
     ${RESULT}=                      Send          SET_TEMP 40
     Should Be Equal                 ${RESULT}     OK
@@ -14,7 +14,7 @@ Alarm Off Below Threshold
 
 Alarm On Above Threshold
     [Documentation]                 Set temperature above threshold and get alarm result, expect alarm on
-    [Tags]                          Embedded      Smoke
+    [Tags]                          2002          Embedded      Smoke
     Start
     ${RESULT}=                      Send          SET_TEMP 85
     Should Be Equal                 ${RESULT}     OK

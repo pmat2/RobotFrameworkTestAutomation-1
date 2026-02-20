@@ -1,7 +1,7 @@
 import subprocess
 
-class app_driver:
-    ROBOT_LIBRARY_SCOPE = "GLOBAL"
+class AppDriver:
+    ROBOT_LIBRARY_SCOPE = "SUITE"
 
     def start(self):
         self.p = subprocess.Popen(
