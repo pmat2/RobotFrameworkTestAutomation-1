@@ -7,7 +7,7 @@ ${USE_HW}    False
 
 *** Test Cases ***
 
-UART Mock Boot Test
+UART Boot Test
     [Documentation]                 UART read command BOOT
     [Tags]                          3001            Embedded            UART
     Uart Write                      BOOT

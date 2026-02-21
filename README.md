@@ -32,35 +32,31 @@ This project contains automated test cases for the [Automation Playground CRM](h
 
 ## Installation
 
-1. **Clone the repository:**
+**Create a virtual environment:**
    ```bash
-   git clone <repository-url>
-   cd Robot_udemy
-   ```
+   # Robot Framework Test Automation
 
-2. **Create a virtual environment:**
-   ```bash
+   This repository contains Robot Framework and unit tests used in the Udemy embedded/automation training. It includes web/CRM tests, embedded application tests (HAL + C), hardware backend mocks, and drivers used by Robot test suites.
+
+   ## Prerequisites
+
+   - Python 3.14+
+   - Recommended: create and use a virtual environment
+
+   ## Installation
+
+   ```powershell
    python -m venv .venv
-   ```
-
-3. **Activate the virtual environment:**
-   - **Windows:**
-     ```bash
-     .venv\Scripts\Activate.ps1
-     ```
-   - **Linux/macOS:**
-     ```bash
-     source .venv/bin/activate
-     ```
-
-4. **Install dependencies:**
-   ```bash
+   .venv\Scripts\Activate.ps1
+   pip install -U pip
    pip install -e .
    ```
 
-## Test Cases
+   On CI agents that run on Windows, `spidev` is skipped by default in `pyproject.toml` to avoid Linux-only builds.
 
-The project includes the following test cases:
+   ## Test Cases
+
+   Below are the main Robot tests maintained in this repository. The suite includes web/CRM scenarios, embedded alarm tests, and hardware interface tests that use mock backends by default.
 
 | Test ID | Name | Category | Description |
 |---------|------|----------|-------------|
@@ -74,88 +70,38 @@ The project includes the following test cases:
 | 1008 | Should be able to cancel adding new customer | Functional | Verifies cancel button works on add customer form |
 | 2001 | Alarm triggers when temperature exceeds threshold | Embedded | Verify alarm output becomes active when temperature > threshold (mocked HAL) |
 | 2002 | Alarm releases when temperature returns below threshold | Embedded | Verify alarm output deasserts when temperature falls below threshold |
-| 2003 | Sensor invalid reading handling | Embedded | Verify system handles invalid/erroneous sensor values safely and reports errors |
-| 2004 | Alarm debounce / transient suppression | Embedded | Verify short/transient spikes do not cause spurious alarm toggles |
-| 2005 | Alarm state persists across resets when configured | Embedded | Verify alarm persistence behavior across software resets when expected |
+| 3001 | UART Boot Test | Embedded | UART Boot Test — sends `BOOT` over UART mock and expects `READY` |
+| 3002 | I2C Register Read Test | Embedded " I2C Register Read Test — reads register `0` and validates returned value bit |
+| 3003 | I2C Write And Read Back | Embedded | I2C Write And Read Back — writes a value to register `16` and reads it back |
+| 3004 | SPI Known Pattern | Embedded | SPI Known Pattern — sends pattern `AA` and expects `55` in response |
+| 3005 | GPIO Toggle Test | Embedded | GPIO Toggle Test — sets GPIO pin high and low and verifies readings |
 
-## Running Tests
+   ## Running Tests
 
-### CRM Application Tests
+   Run all Robot tests and write results to the `results/` directory:
 
-#### Run all tests:
-```bash
-robot -d results tests
-```
+   ```powershell
+   robot -d results tests
+   ```
 
-#### Run specific test by name:
-```bash
-robot --test "Login should succeed with valid credentials" tests/CRM.robot
-```
+   Run just the embedded interface tests:
 
-#### Run tests by tag:
-```bash
-robot --include Smoke tests/CRM.robot
-robot --include Functional tests/CRM.robot
-```
+   ```powershell
+   robot -d results tests/robot/interfaces/interfaces_tests.robot
+   ```
 
-#### Run with specific options:
-```bash
-robot --variable BROWSER:firefox tests/CRM.robot
-robot --outputdir results tests/CRM.robot
-```
+   Run pytest unit tests:
 
-### Embedded Application Tests
+   ```powershell
+   pytest -q
+   ```
 
-#### Build the embedded application:
-```bash
-gcc app.c hal_temperature_mock.c -o app_test
-```
+   ## CI Notes
 
-#### Run embedded tests:
-```bash
-robot -d results tests/hal
-```
+   - The library `pyserial` is required by the real UART backend (`embedded/backends/uart_real.py`). Install `pyserial` on CI agents or keep `use_hw=False` to use mocks.
+   - `spidev` is a Linux-only package; `pyproject.toml` already avoids building it on Windows.
+   - The Robot library import was made robust to missing optional hardware dependencies by lazily importing real backends when `use_hw=True`.
 
-The embedded test suite includes alarm functionality tests using a mock hardware abstraction layer for temperature sensing.
+   ## Reports
 
-## Test Configuration
-
-Key variables defined in `CRM.robot`:
-
-- **BROWSER**: Browser type (default: `chrome`)
-- **URL**: CRM application URL (https://automationplayground.com/crm/)
-- **LOGIN**: Test account email (`admin@automationdemo.com`)
-- **PASSWORD**: Test account password
-
-## Reports
-
-After test execution, Robot Framework generates the following files in the `results/` directory:
-
-- `report.html` - HTML test execution report
-- `log.html` - Detailed test execution log
-- `output.xml` - Machine-readable test results
-
-## Key Libraries Used
-
-- **[SeleniumLibrary](https://robotframework.org/SeleniumLibrary/)**: For browser automation and web element interactions
-- **[Robot Framework](https://robotframework.org/)**: Test automation framework with keyword-driven syntax
-
-## CI/CD Integration
-
-This project can be integrated into CI/CD pipelines. Example for GitHub Actions:
-
-```yaml
-- name: Run Robot Tests
-  run: |
-    robot --outputdir results tests/CRM.robot
-```
-
-## Troubleshooting
-
-- **WebDriver Issues**: Ensure ChromeDriver is compatible with your Chrome browser version
-- **Timeouts**: Adjust the SeleniumLibrary timeout in `CRM.robot` if tests fail intermittently
-- **Element Not Found**: Verify the target CRM application is accessible and hasn't changed
-
-## Contact
-
-For questions or issues, please [add contact information]
+   Robot writes `report.html`, `log.html`, and `output.xml` into the `results/` directory after each run.
