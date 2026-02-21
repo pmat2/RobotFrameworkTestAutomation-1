@@ -40,6 +40,8 @@ class EmbeddedDriver:
 
     # ===== UART =====
     def uart_write(self, data: str):
+        if '\n' not in data:
+            data += '\n'
         self.uart.write(data.encode())
 
     def uart_read(self, timeout=2.0):
