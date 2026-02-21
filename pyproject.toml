@@ -11,3 +11,8 @@ dependencies = [
     "robotframework==7.4.1",
     "robotframework-seleniumlibrary==6.8.0",
 ]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["embedded*"]
+exclude = ["results*", "tests*"]
