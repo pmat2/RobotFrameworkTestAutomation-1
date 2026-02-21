@@ -1,6 +1,6 @@
 # Robot Framework CRM Test Automation
 
-A comprehensive test automation project built with [Robot Framework](https://robotframework.org/) to test a CRM (Customer Relationship Management) application.
+A comprehensive test automation project built with [Robot Framework](https://robotframework.org/) to test a CRM (Customer Relationship Management), embedded HAL and python embedded interfaces applications.
 
 ## Overview
 
