@@ -1,16 +1,16 @@
 import pytest
 
-from backends.uart_mock import UARTMock
-from backends.uart_real import UARTReal
+from embedded.backends.uart_mock import UARTMock
+from embedded.backends.uart_real import UARTReal
 
-from backends.i2c_mock import I2CMock
-from backends.i2c_real import I2CReal
+from embedded.backends.i2c_mock import I2CMock
+from embedded.backends.i2c_real import I2CReal
 
-from backends.spi_mock import SPIMock
-from backends.spi_real import SPIReal
+from embedded.backends.spi_mock import SPIMock
+from embedded.backends.spi_real import SPIReal
 
-from backends.gpio_mock import GPIOMock
-from backends.gpio_real import GPIOReal
+from embedded.backends.gpio_mock import GPIOMock
+from embedded.backends.gpio_real import GPIOReal
 
 
 def pytest_addoption(parser):
