@@ -1,3 +1,17 @@
+import sys
+from pathlib import Path
+
+# Ensure project root is on sys.path so `embedded` package can be imported
+_here = Path(__file__).resolve().parent
+_root = _here
+while _root != _root.parent:
+    if (_root / "embedded").exists() or (_root / "pyproject.toml").exists():
+        break
+    _root = _root.parent
+_root_str = str(_root)
+if _root_str not in sys.path:
+    sys.path.insert(0, _root_str)
+
 from embedded.backends.uart_mock import UARTMock
 from embedded.backends.uart_real import UARTReal
 
