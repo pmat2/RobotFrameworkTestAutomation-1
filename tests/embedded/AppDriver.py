@@ -5,7 +5,7 @@ class AppDriver:
 
     def start(self):
         self.p = subprocess.Popen(
-            ["embedded/app_test.exe"],
+            ["embedded/hal/app_test.exe"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             text=True
