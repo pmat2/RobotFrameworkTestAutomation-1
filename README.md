@@ -1,6 +1,6 @@
 # Robot Framework CRM Test Automation
 
-A comprehensive test automation project built with [Robot Framework](https://robotframework.org/) to test a CRM (Customer Relationship Management), embedded HAL and python embedded interfaces applications.
+This repository contains Robot Framework and unit tests for web/CRM automation and embedded application testing, including HAL, hardware backends, and drivers used in the embedded/automation training.
 
 ## Overview
 
@@ -38,7 +38,7 @@ This project contains automated test cases for the [Automation Playground CRM](h
    ```bash
    # Robot Framework Test Automation
 
-   This repository contains Robot Framework and unit tests used in the Udemy embedded/automation training. It includes web/CRM tests, embedded application tests (HAL + C), hardware backend mocks, and drivers used by Robot test suites.
+   This repository contains Robot Framework and unit tests used in the embedded/automation training. It includes web/CRM tests, embedded application tests (HAL + C), hardware backend mocks, and drivers used by Robot test suites.
 
    ## Prerequisites
 
