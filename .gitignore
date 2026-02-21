@@ -3,3 +3,4 @@
 /.idea/
 /results/
 /embedded/*.exe
+/embedded/hal/*.exe
