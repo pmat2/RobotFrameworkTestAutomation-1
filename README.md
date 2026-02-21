@@ -113,7 +113,7 @@ gcc app.c hal_temperature_mock.c -o app_test
 
 #### Run embedded tests:
 ```bash
-robot -d results tests/embedded
+robot -d results tests/hal
 ```
 
 The embedded test suite includes alarm functionality tests using a mock hardware abstraction layer for temperature sensing.
