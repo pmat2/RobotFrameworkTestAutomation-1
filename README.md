@@ -10,17 +10,19 @@ This project contains automated test cases for the [Automation Playground CRM](h
 
 ```
 .
-├── tests/
-│   ├── CRM.robot              # Main test suite for CRM application
-│   └── embedded/
-│       ├── alarm_tests.robot  # Robot Framework tests for embedded app
-│       └── app_driver.py      # Python driver for embedded application
+├── pyproject.toml
+├── README.md
 ├── embedded/
-│   ├── app.c                  # Embedded application source code
-│   └── hal_temperature_mock.c # Mock hardware abstraction layer
-├── results/                   # Test execution reports (generated)
-├── pyproject.toml            # Project configuration and dependencies
-└── README.md                 # This file
+│   ├── backends/
+│   ├── hal/
+│   └── interfaces/
+├── tests/
+│   ├── pytest/
+│   │   └── tests/             # pytest tests
+│   └── robot/                 # Robot Framework tests
+│       ├── interfaces/
+│       └── hal/
+└── results/                   # Generated test reports
 ```
 
 ## Prerequisites
@@ -42,14 +44,6 @@ This project contains automated test cases for the [Automation Playground CRM](h
 
    - Python 3.14+
    - Recommended: create and use a virtual environment
-
-   ## Installation
-
-   ```powershell
-   python -m venv .venv
-   .venv\Scripts\Activate.ps1
-   pip install -U pip
-   pip install -e .
    ```
 
    On CI agents that run on Windows, `spidev` is skipped by default in `pyproject.toml` to avoid Linux-only builds.
@@ -58,23 +52,23 @@ This project contains automated test cases for the [Automation Playground CRM](h
 
    Below are the main Robot tests maintained in this repository. The suite includes web/CRM scenarios, embedded alarm tests, and hardware interface tests that use mock backends by default.
 
-| Test ID | Name | Category | Description |
-|---------|------|----------|-------------|
-| 1001 | Home page should load | Smoke | Verifies the CRM home page loads correctly |
-| 1002 | Login should succeed with valid credentials | Smoke | Tests successful login with valid email and password |
-| 1003 | Login should fail with missing credentials | Functional | Validates login form rejects empty credentials |
-| 1004 | "Remember me" checkbox should persist email | Functional | Tests email persistence with "Remember me" option |
-| 1005 | Should be able to log out | Functional | Verifies logout functionality works correctly |
-| 1006 | Customers page should display multiple customers | Smoke | Confirms customers grid displays multiple records |
-| 1007 | Should be able to add new customer | Smoke | Tests adding a new customer with valid data |
-| 1008 | Should be able to cancel adding new customer | Functional | Verifies cancel button works on add customer form |
-| 2001 | Alarm triggers when temperature exceeds threshold | Embedded | Verify alarm output becomes active when temperature > threshold (mocked HAL) |
-| 2002 | Alarm releases when temperature returns below threshold | Embedded | Verify alarm output deasserts when temperature falls below threshold |
-| 3001 | UART Boot Test | Embedded | UART Boot Test — sends `BOOT` over UART mock and expects `READY` |
-| 3002 | I2C Register Read Test | Embedded " I2C Register Read Test — reads register `0` and validates returned value bit |
-| 3003 | I2C Write And Read Back | Embedded | I2C Write And Read Back — writes a value to register `16` and reads it back |
-| 3004 | SPI Known Pattern | Embedded | SPI Known Pattern — sends pattern `AA` and expects `55` in response |
-| 3005 | GPIO Toggle Test | Embedded | GPIO Toggle Test — sets GPIO pin high and low and verifies readings |
+| Test ID | Name | Category | Description                                                                   |
+|---------|------|----------|-------------------------------------------------------------------------------|
+| 1001 | Home page should load | Smoke | Verifies the CRM home page loads correctly                                    |
+| 1002 | Login should succeed with valid credentials | Smoke | Tests successful login with valid email and password                          |
+| 1003 | Login should fail with missing credentials | Functional | Validates login form rejects empty credentials                                |
+| 1004 | "Remember me" checkbox should persist email | Functional | Tests email persistence with "Remember me" option                             |
+| 1005 | Should be able to log out | Functional | Verifies logout functionality works correctly                                 |
+| 1006 | Customers page should display multiple customers | Smoke | Confirms customers grid displays multiple records                             |
+| 1007 | Should be able to add new customer | Smoke | Tests adding a new customer with valid data                                   |
+| 1008 | Should be able to cancel adding new customer | Functional | Verifies cancel button works on add customer form                             |
+| 2001 | Alarm triggers when temperature exceeds threshold | Embedded | Verify alarm output becomes active when temperature > threshold (mocked HAL)  |
+| 2002 | Alarm releases when temperature returns below threshold | Embedded | Verify alarm output deasserts when temperature falls below threshold          |
+| 3001 | UART Boot Test | Embedded | UART Boot Test — sends `BOOT` over UART mock and expects `READY`              |
+| 3002 | I2C Register Read Test | Embedded |  I2C Register Read Test — reads register `0` and validates returned value bit |
+| 3003 | I2C Write And Read Back | Embedded | I2C Write And Read Back — writes a value to register `16` and reads it back   |
+| 3004 | SPI Known Pattern | Embedded | SPI Known Pattern — sends pattern `AA` and expects `55` in response           |
+| 3005 | GPIO Toggle Test | Embedded | GPIO Toggle Test — sets GPIO pin high and low and verifies readings           |
 
    ## Running Tests
 
@@ -93,14 +87,13 @@ This project contains automated test cases for the [Automation Playground CRM](h
    Run pytest unit tests:
 
    ```powershell
-   pytest -q
+   pytest tests/pytest/
    ```
 
    ## CI Notes
 
    - The library `pyserial` is required by the real UART backend (`embedded/backends/uart_real.py`). Install `pyserial` on CI agents or keep `use_hw=False` to use mocks.
    - `spidev` is a Linux-only package; `pyproject.toml` already avoids building it on Windows.
-   - The Robot library import was made robust to missing optional hardware dependencies by lazily importing real backends when `use_hw=True`.
 
    ## Reports
 
